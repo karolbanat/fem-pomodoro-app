@@ -4,40 +4,42 @@ $breakpoints: (
 	large: 62em,
 );
 
-$themes: (
-	one: (
-		clr: hsl(0deg 91% 71%),
-		ff: (
-			'Kumbh Sans',
-			sans-serif,
-		),
-		ls: 0.05em,
-	),
-	two: (
-		clr: hsl(182deg 91% 71%),
-		ff: (
-			'Roboto Slab',
-			serif,
-		),
-		ls: normal,
-	),
-	three: (
-		clr: hsl(284deg 89% 74%),
-		ff: (
-			'Space Mono',
-			serif,
-		),
-		ls: 0.1em,
-	),
-);
-
 $colours: (
+	theme: (
+		red: hsl(0deg 91% 71%),
+		cyan: hsl(182deg 91% 71%),
+		violet: hsl(284deg 89% 74%),
+	),
 	neutral: (
 		100: hsl(0deg 0% 100%),
 		200: hsl(229deg 52% 96%),
 		400: hsl(227deg 100% 92%),
 		700: hsl(235deg 35% 18%),
 		800: hsl(234deg 39% 14%),
+	),
+);
+
+$fonts: (
+	sans-serif: (
+		ff: (
+			'Kumbh Sans',
+			sans-serif,
+		),
+		ls: 0.05em,
+	),
+	serif: (
+		ff: (
+			'Roboto Slab',
+			serif,
+		),
+		ls: normal,
+	),
+	monospace: (
+		ff: (
+			'Space Mono',
+			serif,
+		),
+		ls: 0.1em,
 	),
 );
 

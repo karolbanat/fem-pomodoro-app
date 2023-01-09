@@ -5,17 +5,16 @@
 	/* colours */
 	@each $colour, $shades in variables.$colours {
 		@each $shade, $value in $shades {
-			--clr-#{$colour}-#{$shade}: #{$value};
+			--clr-#{$colour}-#{"" + $shade}: #{$value};
 		}
 	}
 
-	/* font families */
+	/* fonts */
 	--ff-default: 'Kumbh Sans', sans-serif;
 
-	/* themes */
-	@each $theme, $properties in variables.$themes {
+	@each $font, $properties in variables.$fonts {
 		@each $property, $value in $properties {
-			--#{$property}-theme-#{$theme}: #{$value};
+			--#{$property}-#{$font}: #{$value};
 		}
 	}
 
