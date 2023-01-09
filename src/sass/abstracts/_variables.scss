@@ -6,7 +6,7 @@ $breakpoints: (
 
 $themes: (
 	one: (
-		colour: hsl(0deg 91% 71%),
+		clr: hsl(0deg 91% 71%),
 		ff: (
 			'Kumbh Sans',
 			sans-serif,
@@ -14,7 +14,7 @@ $themes: (
 		ls: 0.05em,
 	),
 	two: (
-		colour: hsl(182deg 91% 71%),
+		clr: hsl(182deg 91% 71%),
 		ff: (
 			'Roboto Slab',
 			serif,
@@ -22,7 +22,7 @@ $themes: (
 		ls: normal,
 	),
 	three: (
-		colour: hsl(284deg 89% 74%),
+		clr: hsl(284deg 89% 74%),
 		ff: (
 			'Space Mono',
 			serif,
