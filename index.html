@@ -25,25 +25,188 @@
 </head>
 
 <body>
-    pomodoro
-    short break
-    long break
+    <main>
+        <!-- logo -->
+        <h1 class="logo-heading">pomodoro <span class="visually-hidden">app</span></h1>
 
-    start
-    pause
-    restart
+        <!-- state control group -->
+        <div class="state-group">
+            <button class="state-button">pomodoro</button>
+            <button class="state-button">short break</button>
+            <button class="state-button">long break</button>
+        </div>
 
-    Settings
+        <!-- pomodoro timer -->
+        <div class="timer">
+            <div class="timer__body">
+                <!-- progress bar -->
+                <svg aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg"
+                     class="timer__progress-bar"></svg>
 
-    Time (minutes)
-    pomodoro
-    short break
-    long break
+                <!-- time -->
+                <p class="timer__time">00:00</p>
 
-    Font
-    Color
+                <!-- action buttons -->
+                <button class="timer__action-button"
+                        data-action="start">start <span class="visually-hidden">timer</span></button>
+                <button class="timer__action-button"
+                        data-action="pause">pause <span class="visually-hidden">timer</span></button>
+                <button class="timer__action-button"
+                        data-action="restart">restart <span class="visually-hidden">timer</span></button>
+            </div>
+        </div>
+        <!-- pomodoro timer end -->
 
-    Apply
+        <!-- settings button -->
+        <button class="icon-button">
+            <img src="./dist/assets/icon-settings.svg"
+                 alt="Settings">
+        </button>
+
+        <!-- settings modal start -->
+        <div aria-modal="true"
+             aria-labelledby="settings-modal-heading"
+             role="dialog"
+             class="settings-modal">
+            <!-- modal header -->
+            <div class="settings-modal__header">
+                <h2 id="settings-modal-heading"
+                    class="settings-modal__heading">Settings</h2>
+                <button class="icon-button">
+                    <img src="./dist/assets/icon-close.svg"
+                         alt="">
+                    <span class="visually-hidden">Close settings modal</span>
+                </button>
+            </div>
+
+            <!-- modal body -->
+            <div class="settings-modal__body">
+                <!-- settings form -->
+                <form class="settings-form">
+
+                    <!-- times settings start -->
+                    <fieldset class="settings-form__fieldset">
+                        <legend>Time (minutes)</legend>
+                        <div class="input-group">
+                            <label for="pomodoro-time"
+                                   class="input-group__label">pomodoro</label>
+                            <input type="number"
+                                   min="1"
+                                   step="1"
+                                   value="25"
+                                   name="pomodoro"
+                                   id="pomodoro-time"
+                                   class="input-group__input">
+                        </div>
+                        <div class="input-group">
+                            <label for="short-break-time"
+                                   class="input-group__label">short break</label>
+                            <input type="number"
+                                   min="1"
+                                   step="1"
+                                   value="5"
+                                   name="short-break"
+                                   id="short-break-time"
+                                   class="input-group__input">
+                        </div>
+                        <div class="input-group">
+                            <label for="long-break-time"
+                                   class="input-group__label">long break</label>
+                            <input type="number"
+                                   min="1"
+                                   step="1"
+                                   value="15"
+                                   name="long-break"
+                                   id="long-break-time"
+                                   class="input-group__input">
+                        </div>
+                    </fieldset>
+                    <!-- times settings end -->
+
+                    <!-- font settings start -->
+                    <fieldset class="settings-form__fieldset">
+                        <legend>Font</legend>
+                        <div class="font-radio-button">
+                            <input type="radio"
+                                   name="font"
+                                   id="font-one"
+                                   class="visually-hidden">
+                            <label for="font-one"
+                                   class="font-radio-button__label">
+                                <span aria-hidden="true">Aa</span>
+                                <span class="visually-hidden">Kumbh Sans</span>
+                            </label>
+                        </div>
+                        <div class="font-radio-button">
+                            <input type="radio"
+                                   name="font"
+                                   id="font-two"
+                                   class="visually-hidden">
+                            <label for="font-two"
+                                   class="font-radio-button__label">
+                                <span aria-hidden="true">Aa</span>
+                                <span class="visually-hidden">Roboto Slab</span>
+                            </label>
+                        </div>
+                        <div class="font-radio-button">
+                            <input type="radio"
+                                   name="font"
+                                   id="font-three"
+                                   class="visually-hidden">
+                            <label for="font-three"
+                                   class="font-radio-button__label">
+                                <span aria-hidden="true">Aa</span>
+                                <span class="visually-hidden">Space Mono</span>
+                            </label>
+                        </div>
+                    </fieldset>
+                    <!-- font settings end -->
+
+                    <!-- colour settings start -->
+                    <fieldset class="settings-form__fieldset">
+                        <legend>Color</legend>
+                        <div class="colour-radio-button">
+                            <input type="radio"
+                                   name="colour"
+                                   id="colour-one"
+                                   class="visually-hidden">
+                            <label for="colour-one"
+                                   class="colour-radio-button__label">
+                                <span class="visually-hidden">Bright red</span>
+                            </label>
+                        </div>
+                        <div class="colour-radio-button">
+                            <input type="radio"
+                                   name="colour"
+                                   id="colour-two"
+                                   class="visually-hidden">
+                            <label for="colour-two"
+                                   class="colour-radio-button__label">
+                                <span class="visually-hidden">Cyan</span>
+                            </label>
+                        </div>
+                        <div class="colour-radio-button">
+                            <input type="radio"
+                                   name="colour"
+                                   id="colour-three"
+                                   class="visually-hidden">
+                            <label for="colour-three"
+                                   class="colour-radio-button__label">
+                                <span class="visually-hidden">Violet</span>
+                            </label>
+                        </div>
+                    </fieldset>
+                    <!-- colour settings end -->
+
+                    <button type="submit"
+                            class="button settings-form__submit-button">Apply</button>
+                </form>
+            </div>
+        </div>
+        <!-- settings modal end -->
+    </main>
+
 </body>
 
 </html>
