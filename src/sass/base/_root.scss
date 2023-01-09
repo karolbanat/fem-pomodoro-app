@@ -2,14 +2,22 @@
 @use '../abstracts/mixins';
 
 :root {
-	/* colors */
-	@each $color, $shades in variables.$colors {
+	/* colours */
+	@each $colour, $shades in variables.$colours {
 		@each $shade, $value in $shades {
-			--clr-#{$color}-#{$shade}: #{$value};
+			--clr-#{$colour}-#{$shade}: #{$value};
 		}
 	}
 
 	/* font families */
+	--ff-default: 'Kumbh Sans', sans-serif;
+
+	/* themes */
+	@each $theme, $properties in variables.$themes {
+		@each $property, $value in $properties {
+			--#{$property}-theme-#{$theme}: #{$value};
+		}
+	}
 
 	/* font weights */
 	@each $font-weight, $value in variables.$font-weights {
@@ -23,7 +31,7 @@
 				--fz-#{$size}: #{$value};
 			}
 		} @else {
-			@include mixins.mq($screen) {
+			@include mixins.media-query($screen) {
 				@each $size, $value in $sizes {
 					--fz-#{$size}: #{$value};
 				}
@@ -31,15 +39,23 @@
 		}
 	}
 
-	/* border radius */
-	@each $radius, $value in variables.$border-radius {
-		--borr-#{$radius}: #{$value};
+	/* letter spacings */
+	@each $letter-spacing, $value in variables.$letter-spacings {
+		--ls-#{$letter-spacing}: #{$value};
 	}
 
-	/* spacings */
-	@each $unit, $sizes in variables.$spacings {
-		@each $size, $value in $sizes {
-			--spacing-#{$unit}-#{$size}: #{$value};
+	/* border radius */
+	@each $screen, $radiuses in variables.$border-radius {
+		@if $screen == small {
+			@each $radius, $value in $radiuses {
+				--borr-#{$radius}: #{$value};
+			}
+		} @else {
+			@include mixins.media-query($screen) {
+				@each $radius, $value in $radiuses {
+					--borr-#{$radius}: #{$value};
+				}
+			}
 		}
 	}
 }
