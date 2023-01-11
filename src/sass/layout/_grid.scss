@@ -1,0 +1,10 @@
+.one-cell-grid {
+	display: grid;
+	place-items: center;
+
+	/* so every element shares the same grid cell */
+	& > * {
+		grid-column: 1;
+		grid-row: 1;
+	}
+}

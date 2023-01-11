@@ -25,19 +25,11 @@
 
 	&__body {
 		position: relative;
-		display: grid;
-		place-items: center;
 		padding: clamp(1rem, 1.5vw, 1.3rem);
 
 		/* timer inner appearance */
 		background-color: var(--clr-neutral-800);
 		border-radius: inherit;
-
-		/* so every element shares the same grid cell */
-		& > * {
-			grid-column: 1;
-			grid-row: 1;
-		}
 	}
 
 	&__progress-bar {
