@@ -1,0 +1,21 @@
+@use '../abstracts/mixins';
+
+.timer {
+	&__progress-bar {
+		--progress: 0;
+
+		/* progress line */
+		stroke-width: 0.4rem;
+		stroke-linecap: round;
+		stroke-dasharray: 300;
+		stroke-dashoffset: var(--progress, 0);
+		stroke: var(--theme-colour, black);
+
+		/* circle center */
+		fill: none;
+
+		/* rotates 90degrees to the left so starting storke is at the top */
+		transform: rotate(-90deg);
+		transform-origin: center;
+	}
+}
