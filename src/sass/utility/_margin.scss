@@ -20,3 +20,13 @@
 		margin-block-end: 4.4rem;
 	}
 }
+
+.margin-timer {
+	margin-block-end: 8rem;
+	@include mixins.media-query(medium) {
+		margin-block-end: 14.4rem;
+	}
+	@include mixins.media-query(large) {
+		margin-block-end: 6.4rem;
+	}
+}
