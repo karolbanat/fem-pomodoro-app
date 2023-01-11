@@ -5,6 +5,32 @@ body {
 	font-weight: var(--fw-700, 700);
 	color: var(--clr-neutral-400);
 	background-color: var(--clr-neutral-700);
+
+	/* themes */
+	&[data-theme='red'] {
+		--theme-colour: var(--clr-theme-red);
+	}
+
+	&[data-theme='cyan'] {
+		--theme-colour: var(--clr-theme-cyan);
+	}
+
+	&[data-theme='violet'] {
+		--theme-colour: var(--clr-theme-violet);
+	}
+
+	/* fonts */
+	&[data-font='sans-serif'] {
+		--theme-font: var(--ff-sans-serif);
+	}
+
+	&[data-font='serif'] {
+		--theme-font: var(--ff-serif);
+	}
+
+	&[data-font='monospace'] {
+		--theme-font: var(--ff-monospace);
+	}
 }
 
 main {

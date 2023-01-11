@@ -10,3 +10,13 @@
 		margin-block-end: 4.8rem;
 	}
 }
+
+.margin-state-group {
+	margin-block-end: 4.8rem;
+	@include mixins.media-query(medium) {
+		margin-block-end: 10.8rem;
+	}
+	@include mixins.media-query(large) {
+		margin-block-end: 4.4rem;
+	}
+}
