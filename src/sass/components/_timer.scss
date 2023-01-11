@@ -24,6 +24,7 @@
 		var(--shadow-offset) var(--shadow-offset) var(--shadow-blur) var(--colour-shadow-right);
 
 	&__body {
+		position: relative;
 		display: grid;
 		place-items: center;
 		padding: clamp(1rem, 1.5vw, 1.3rem);
@@ -58,12 +59,51 @@
 	}
 
 	&__time {
+		margin-block-start: -0.15em;
 		font-family: var(--theme-font);
 		font-size: var(--fz-900);
 		letter-spacing: var(--time-letter-spacing);
 	}
 
 	&__action-button {
+		/* position */
+		position: absolute;
+		bottom: clamp(6.2rem, 17vw, 8.8rem);
+
+		/* typography */
+		font-family: var(--theme-font);
+		font-size: var(--fz-300);
+		text-transform: uppercase;
+		letter-spacing: var(--ls-400);
+		color: var(--clr-neutral-400);
+
+		/* appearance reset */
+		background: none;
+		border: none;
+
+		/* other */
+		cursor: pointer;
+		transition: color 0.35s ease-in-out;
+
+		&:hover,
+		&:focus-visible {
+			color: var(--theme-colour);
+		}
+	}
+
+	/* state management */
+	/* when timer paused or at a starting point, show start button and hide other */
+	&:is([data-status='initial'], [data-status='paused']) button:not([data-action='start']) {
+		display: none;
+	}
+
+	/* when timer is counting down, show pause button and hide other */
+	&[data-status='counting'] button:not([data-action='pause']) {
+		display: none;
+	}
+
+	/* when timer has ended counting, show restart button and hide other */
+	&[data-status='ended'] button:not([data-action='restart']) {
 		display: none;
 	}
 }
