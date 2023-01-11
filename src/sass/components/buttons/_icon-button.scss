@@ -1,0 +1,16 @@
+.icon-button {
+	--icon-opacity: 0.5;
+	display: block;
+	background: none;
+	border: none;
+	cursor: pointer;
+
+	& * {
+		pointer-events: none;
+	}
+
+	&:hover,
+	&:focus-visible {
+		--icon-opacity: 1;
+	}
+}
