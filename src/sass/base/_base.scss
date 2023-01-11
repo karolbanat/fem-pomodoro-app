@@ -22,14 +22,17 @@ body {
 	/* fonts */
 	&[data-font='sans-serif'] {
 		--theme-font: var(--ff-sans-serif);
+		--time-letter-spacing: var(--ls-sans-serif);
 	}
 
 	&[data-font='serif'] {
 		--theme-font: var(--ff-serif);
+		--time-letter-spacing: var(--ls-serif);
 	}
 
 	&[data-font='monospace'] {
 		--theme-font: var(--ff-monospace);
+		--time-letter-spacing: var(--ls-monospace);
 	}
 }
 

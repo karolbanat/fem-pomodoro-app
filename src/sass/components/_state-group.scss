@@ -1,6 +1,7 @@
 @use '../abstracts/mixins';
 
 .state-group {
+	position: relative; // to hide timer shadows under
 	display: flex;
 	justify-content: center;
 	max-width: max-content;

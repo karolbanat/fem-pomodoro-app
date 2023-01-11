@@ -1,6 +1,44 @@
 @use '../abstracts/mixins';
 
 .timer {
+	/* size controls */
+	--min-width: 30rem;
+	--size-grow-rate: 80vw;
+	--max-width: 41rem;
+	/* shadow controls */
+	--shadow-offset: 5rem;
+	--shadow-blur: 10rem;
+	--colour-shadow-left: hsl(234deg 40% 25%);
+	--colour-shadow-right: hsl(234deg 45% 13%);
+
+	/* sizing */
+	max-width: clamp(var(--min-width), var(--size-grow-rate), var(--max-width));
+	padding: clamp(1.6rem, 3vw, 2.2rem);
+	aspect-ratio: 1 / 1;
+
+	/* timer outer appearance */
+	background-image: linear-gradient(135deg, var(--clr-neutral-900), var(--clr-neutral-600));
+	border-radius: var(--borr-circle, 50%);
+	box-shadow: calc(var(--shadow-offset) * -1) calc(var(--shadow-offset) * -1) var(--shadow-blur)
+			var(--colour-shadow-left),
+		var(--shadow-offset) var(--shadow-offset) var(--shadow-blur) var(--colour-shadow-right);
+
+	&__body {
+		display: grid;
+		place-items: center;
+		padding: clamp(1rem, 1.5vw, 1.3rem);
+
+		/* timer inner appearance */
+		background-color: var(--clr-neutral-800);
+		border-radius: inherit;
+
+		/* so every element shares the same grid cell */
+		& > * {
+			grid-column: 1;
+			grid-row: 1;
+		}
+	}
+
 	&__progress-bar {
 		--progress: 0;
 
@@ -17,5 +55,15 @@
 		/* rotates 90degrees to the left so starting storke is at the top */
 		transform: rotate(-90deg);
 		transform-origin: center;
+	}
+
+	&__time {
+		font-family: var(--theme-font);
+		font-size: var(--fz-900);
+		letter-spacing: var(--time-letter-spacing);
+	}
+
+	&__action-button {
+		display: none;
 	}
 }

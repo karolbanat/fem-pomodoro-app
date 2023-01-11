@@ -14,8 +14,10 @@ $colours: (
 		100: hsl(0deg 0% 100%),
 		200: hsl(229deg 52% 96%),
 		400: hsl(227deg 100% 92%),
+		600: hsl(235deg 32% 27%),
 		700: hsl(235deg 35% 18%),
 		800: hsl(234deg 39% 14%),
+		900: hsl(234deg 50% 11%),
 	),
 );
 
@@ -25,7 +27,7 @@ $fonts: (
 			'Kumbh Sans',
 			sans-serif,
 		),
-		ls: 0.05em,
+		ls: -0.05em,
 	),
 	serif: (
 		ff: (
@@ -39,7 +41,7 @@ $fonts: (
 			'Space Mono',
 			serif,
 		),
-		ls: 0.1em,
+		ls: -0.1em,
 	),
 );
 
