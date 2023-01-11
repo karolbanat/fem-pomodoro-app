@@ -26,44 +26,49 @@
 
 <body>
     <main>
-        <!-- logo -->
-        <h1 class="logo-heading">pomodoro <span class="visually-hidden">app</span></h1>
+        <div class="container">
+            <!-- logo -->
+            <h1 class="margin-logo">
+                <img src="./dist/assets/logo.svg"
+                     alt="pomodoro"
+                     class="mx-auto">
+            </h1>
 
-        <!-- state control group -->
-        <div class="state-group">
-            <button class="state-button">pomodoro</button>
-            <button class="state-button">short break</button>
-            <button class="state-button">long break</button>
-        </div>
-
-        <!-- pomodoro timer -->
-        <div class="timer">
-            <div class="timer__body">
-                <!-- progress bar -->
-                <svg aria-hidden="true"
-                     xmlns="http://www.w3.org/2000/svg"
-                     class="timer__progress-bar"></svg>
-
-                <!-- time -->
-                <p class="timer__time">00:00</p>
-
-                <!-- action buttons -->
-                <button class="timer__action-button"
-                        data-action="start">start <span class="visually-hidden">timer</span></button>
-                <button class="timer__action-button"
-                        data-action="pause">pause <span class="visually-hidden">timer</span></button>
-                <button class="timer__action-button"
-                        data-action="restart">restart <span class="visually-hidden">timer</span></button>
+            <!-- state control group -->
+            <div class="state-group">
+                <button class="state-button">pomodoro</button>
+                <button class="state-button">short break</button>
+                <button class="state-button">long break</button>
             </div>
+
+            <!-- pomodoro timer -->
+            <div class="timer">
+                <div class="timer__body">
+                    <!-- progress bar -->
+                    <svg aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg"
+                         class="timer__progress-bar"></svg>
+
+                    <!-- time -->
+                    <p class="timer__time">00:00</p>
+
+                    <!-- action buttons -->
+                    <button class="timer__action-button"
+                            data-action="start">start <span class="visually-hidden">timer</span></button>
+                    <button class="timer__action-button"
+                            data-action="pause">pause <span class="visually-hidden">timer</span></button>
+                    <button class="timer__action-button"
+                            data-action="restart">restart <span class="visually-hidden">timer</span></button>
+                </div>
+            </div>
+            <!-- pomodoro timer end -->
+
+            <!-- settings button -->
+            <button class="icon-button">
+                <img src="./dist/assets/icon-settings.svg"
+                     alt="Settings">
+            </button>
         </div>
-        <!-- pomodoro timer end -->
-
-        <!-- settings button -->
-        <button class="icon-button">
-            <img src="./dist/assets/icon-settings.svg"
-                 alt="Settings">
-        </button>
-
         <!-- settings modal start -->
         <div aria-modal="true"
              aria-labelledby="settings-modal-heading"

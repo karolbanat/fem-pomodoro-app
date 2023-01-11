@@ -1,0 +1,12 @@
+@use '../abstracts/mixins';
+
+.mx-auto {
+	margin-inline: auto;
+}
+
+.margin-logo {
+	margin-block-end: 4rem;
+	@include mixins.media-query(medium) {
+		margin-block-end: 4.8rem;
+	}
+}

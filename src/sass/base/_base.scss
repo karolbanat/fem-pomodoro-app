@@ -1,6 +1,18 @@
+@use '../abstracts/mixins';
+
 body {
 	font-family: var(--ff-default, sans-serif);
 	font-weight: var(--fw-700, 700);
 	color: var(--clr-neutral-400);
 	background-color: var(--clr-neutral-700);
+}
+
+main {
+	padding-block: 3.2rem;
+	@include mixins.media-query(medium) {
+		margin-block-start: 8rem;
+	}
+	@include mixins.media-query(large) {
+		margin-block-start: 5.4rem;
+	}
 }
