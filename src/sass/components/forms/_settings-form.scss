@@ -1,13 +1,17 @@
 @use '../../abstracts/mixins';
 
 .settings-form {
+	/* fieldset related styles */
 	&__fieldset {
+		/* layout */
 		display: flex;
 		flex-direction: column;
-		// align-items: center;
 		gap: 1.6rem;
+
+		/* appearance */
 		padding-block: 2.4rem;
 		border: none;
+
 		@include mixins.media-query(medium) {
 			align-items: flex-start;
 
@@ -17,20 +21,24 @@
 				align-items: center;
 			}
 		}
+	}
 
-		&:not(:last-of-type) {
-			border-bottom: 1px solid var(--clr-neutral-300);
-		}
+	/* bottom line one every fieldset except the last one */
+	&__fieldset:not(:last-of-type) {
+		border-bottom: 1px solid var(--clr-neutral-300);
+	}
 
-		legend {
-			float: left;
-			font-size: var(--fz-100);
-			text-align: center;
-			text-transform: uppercase;
-			letter-spacing: var(--ls-200);
-			@include mixins.media-query(medium) {
-				text-align: start;
-			}
+	&__fieldset legend {
+		float: left; /* allows position legend as flex element */
+
+		/* typography */
+		font-size: var(--fz-100);
+		text-align: center;
+		text-transform: uppercase;
+		letter-spacing: var(--ls-200);
+		@include mixins.media-query(medium) {
+			text-align: start;
 		}
 	}
+	/* fieldset related styles end */
 }
