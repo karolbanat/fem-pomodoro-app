@@ -1,0 +1,14 @@
+@use '../../abstracts/mixins';
+
+.form-input {
+	padding: 1em;
+	font-size: var(--fz-300);
+	background-color: var(--clr-neutral-200);
+	border: none;
+	border-radius: var(--borr-200);
+
+	&[type='number'] {
+		width: 100%;
+		max-width: 14rem;
+	}
+}

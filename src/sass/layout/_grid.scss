@@ -1,3 +1,5 @@
+@use '../abstracts/mixins';
+
 .one-cell-grid {
 	display: grid;
 	place-items: center;
@@ -6,5 +8,15 @@
 	& > * {
 		grid-column: 1;
 		grid-row: 1;
+	}
+}
+
+.times-input-grid {
+	display: grid;
+	gap: 0.8rem;
+	@include mixins.media-query(small) {
+		grid-auto-flow: column;
+		grid-auto-columns: 1fr;
+		gap: 2rem;
 	}
 }

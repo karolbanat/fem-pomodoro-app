@@ -115,44 +115,49 @@
                     <!-- times settings start -->
                     <fieldset class="settings-form__fieldset">
                         <legend>Time (minutes)</legend>
-                        <div class="input-group">
-                            <label for="pomodoro-time"
-                                   class="input-group__label">pomodoro</label>buttons
-                            <input type="number"
-                                   min="1"
-                                   step="1"
-                                   value="25"
-                                   name="pomodoro"
-                                   id="pomodoro-time"
-                                   class="input-group__input">
-                        </div>
-                        <div class="input-group">
-                            <label for="short-break-time"
-                                   class="input-group__label">short break</label>
-                            <input type="number"
-                                   min="1"
-                                   step="1"
-                                   value="5"
-                                   name="short-break"
-                                   id="short-break-time"
-                                   class="input-group__input">
-                        </div>
-                        <div class="input-group">
-                            <label for="long-break-time"
-                                   class="input-group__label">long break</label>
-                            <input type="number"
-                                   min="1"
-                                   step="1"
-                                   value="15"
-                                   name="long-break"
-                                   id="long-break-time"
-                                   class="input-group__input">
+                        <div class="times-input-grid">
+                            <div class="input-group">
+                                <label for="pomodoro-time"
+                                       class="input-group__label">pomodoro</label>
+                                <input type="number"
+                                       min="1"
+                                       max="99"
+                                       step="1"
+                                       value="25"
+                                       name="pomodoro"
+                                       id="pomodoro-time"
+                                       class="form-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="short-break-time"
+                                       class="input-group__label">short break</label>
+                                <input type="number"
+                                       min="1"
+                                       max="99"
+                                       step="1"
+                                       value="5"
+                                       name="short-break"
+                                       id="short-break-time"
+                                       class="form-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="long-break-time"
+                                       class="input-group__label">long break</label>
+                                <input type="number"
+                                       min="1"
+                                       max="99"
+                                       step="1"
+                                       value="15"
+                                       name="long-break"
+                                       id="long-break-time"
+                                       class="form-input">
+                            </div>
                         </div>
                     </fieldset>
                     <!-- times settings end -->
 
                     <!-- font settings start -->
-                    <fieldset class="settings-form__fieldset">
+                    <fieldset class="settings-form__fieldset settings-form__fieldset--horizontal">
                         <legend>Font</legend>
                         <div class="font-radio-button">
                             <input type="radio"
@@ -191,7 +196,7 @@
                     <!-- font settings end -->
 
                     <!-- colour settings start -->
-                    <fieldset class="settings-form__fieldset">
+                    <fieldset class="settings-form__fieldset settings-form__fieldset--horizontal">
                         <legend>Color</legend>
                         <div class="colour-radio-button">
                             <input type="radio"
