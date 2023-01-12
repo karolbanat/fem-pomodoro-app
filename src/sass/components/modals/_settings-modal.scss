@@ -1,0 +1,43 @@
+@use '../../abstracts/mixins';
+
+.settings-modal {
+	--max-inline-size: 54rem;
+	--margin-inline: 2.4rem;
+	--common-padding-inline: clamp(2.4rem, 5vw, 4rem);
+
+	/* positioning */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	/* sizing */
+	width: calc(100% - 2 * var(--margin-inline));
+	max-width: var(--max-inline-size);
+
+	/* appearance */
+	color: var(--clr-neutral-800);
+	background-color: var(--clr-neutral-100);
+	border-radius: var(--borr-300);
+	overflow: hidden;
+
+	/* --- elements --- */
+
+	&__header {
+		padding-inline: var(--common-padding-inline);
+		padding-block-start: 2.4rem;
+		padding-block-end: 2.4rem;
+		border-bottom: 1px solid var(--clr-neutral-300);
+		@include mixins.media-query(medium) {
+			padding-block-start: 2.4rem;
+		}
+	}
+
+	&__heading {
+		font-size: var(--fz-600);
+	}
+
+	&__body {
+		padding-inline: var(--common-padding-inline);
+	}
+}
