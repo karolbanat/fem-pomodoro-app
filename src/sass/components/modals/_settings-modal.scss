@@ -19,7 +19,10 @@
 	color: var(--clr-neutral-800);
 	background-color: var(--clr-neutral-100);
 	border-radius: var(--borr-300);
-	overflow: hidden;
+
+	&[data-open='false'] {
+		display: none;
+	}
 
 	/* --- elements --- */
 
