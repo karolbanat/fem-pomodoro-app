@@ -1,6 +1,7 @@
 @use '../abstracts/mixins';
 
 body {
+	position: relative;
 	font-family: var(--ff-default, sans-serif);
 	font-weight: var(--fw-700, 700);
 	color: var(--clr-neutral-400);

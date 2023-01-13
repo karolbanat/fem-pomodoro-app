@@ -1,6 +1,7 @@
 @use '../../abstracts/mixins';
 
 .settings-modal {
+	--modal-layer: 9000;
 	--max-inline-size: 54rem;
 	--margin-inline: 2.4rem;
 	--common-padding-inline: clamp(2.4rem, 5vw, 4rem);
@@ -10,6 +11,7 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	z-index: var(--modal-layer);
 
 	/* sizing */
 	width: calc(100% - 2 * var(--margin-inline));
@@ -22,6 +24,12 @@
 
 	&[data-open='false'] {
 		display: none;
+	}
+
+	/* show dropshadow when modal is open */
+	&[data-open='true'] + .dropshadow {
+		display: block;
+		z-index: calc(var(--modal-layer) - 1);
 	}
 
 	/* --- elements --- */
