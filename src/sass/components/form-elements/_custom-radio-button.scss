@@ -1,0 +1,41 @@
+@use '../../abstracts/mixins';
+
+.custom-radio-button {
+	--button-size: 4rem;
+	--text-colour: currentColor;
+	--button-bg: initial;
+	position: relative;
+
+	/* hide default radio button */
+	& input[type='radio'] {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0;
+		height: 0;
+		appearance: none;
+		opacity: 0;
+	}
+
+	& label {
+		display: inline-grid;
+		place-items: center;
+		width: var(--button-size);
+		aspect-ratio: 1 / 1;
+		color: var(--text-colour);
+		background-color: var(--button-bg);
+		border-radius: var(--borr-circle, 50%);
+		cursor: pointer;
+	}
+
+	& label:is(:hover, :focus-visible),
+	& input[type='radio']:is(:hover, :focus-visible) ~ label {
+		outline: 2px solid var(--clr-neutral-200);
+		outline-offset: 0.8rem;
+	}
+
+	& input[type='radio']:checked ~ label {
+		background-color: var(--button-bg-checked);
+		color: var(--text-colour-checked);
+	}
+}

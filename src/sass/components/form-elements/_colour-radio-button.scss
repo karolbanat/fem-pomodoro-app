@@ -1,0 +1,33 @@
+@use './custom-radio-button';
+
+.colour-radio-button {
+	@extend .custom-radio-button;
+
+	&__label {
+		position: relative;
+	}
+
+	& input[type='radio']:checked ~ label::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image: url('../assets/icon-check.svg');
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	&--red {
+		--button-bg: var(--clr-theme-red);
+		--button-bg-checked: var(--clr-theme-red);
+	}
+
+	&--cyan {
+		--button-bg: var(--clr-theme-cyan);
+		--button-bg-checked: var(--clr-theme-cyan);
+	}
+
+	&--violet {
+		--button-bg: var(--clr-theme-violet);
+		--button-bg-checked: var(--clr-theme-violet);
+	}
+}

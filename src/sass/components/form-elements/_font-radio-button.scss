@@ -1,0 +1,25 @@
+@use './custom-radio-button';
+
+.font-radio-button {
+	@extend .custom-radio-button;
+	--button-bg: var(--clr-neutral-200);
+	--button-bg-checked: var(--clr-neutral-800);
+	--text-colour: var(--clr-neutral-800);
+	--text-colour-checked: var(--clr-neutral-200);
+
+	&__label {
+		font-size: var(--fz-400);
+	}
+
+	&--sans-serif {
+		font-family: var(--ff-sans-serif);
+	}
+
+	&--serif {
+		font-family: var(--ff-serif);
+	}
+
+	&--monospace {
+		font-family: var(--ff-monospace);
+	}
+}
