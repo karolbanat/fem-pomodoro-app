@@ -73,6 +73,7 @@
 
             <!-- settings button -->
             <button aria-label="Settings"
+                    id="settings-button"
                     class="icon-button | mx-auto">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      width="28"
@@ -89,13 +90,15 @@
              aria-labelledby="settings-modal-heading"
              role="dialog"
              class="settings-modal"
+             id="settings-modal"
              data-open="false">
             <!-- modal header -->
             <div class="settings-modal__header">
                 <div class="flex-between-centred">
                     <h2 id="settings-modal-heading"
                         class="settings-modal__heading">Settings</h2>
-                    <button class="icon-button">
+                    <button id="close-settings-modal-button"
+                            class="icon-button">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              width="14"
                              height="14">
@@ -247,6 +250,8 @@
         <!-- settings modal end -->
     </main>
 
+    <script src="./dist/js/main.min.js"
+            defer></script>
 </body>
 
 </html>
