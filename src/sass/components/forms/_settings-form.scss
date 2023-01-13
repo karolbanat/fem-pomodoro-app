@@ -23,8 +23,6 @@
 		border: none;
 
 		@include mixins.media-query(medium) {
-			align-items: flex-start;
-
 			&--horizontal {
 				flex-direction: row;
 				justify-content: space-between;
