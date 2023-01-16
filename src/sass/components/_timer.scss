@@ -82,20 +82,4 @@
 			color: var(--theme-colour);
 		}
 	}
-
-	/* state management */
-	/* when timer paused or at a starting point, show start button and hide other */
-	&:is([data-status='initial'], [data-status='paused']) button:not([data-action='start']) {
-		display: none;
-	}
-
-	/* when timer is counting down, show pause button and hide other */
-	&[data-status='counting'] button:not([data-action='pause']) {
-		display: none;
-	}
-
-	/* when timer has ended counting, show restart button and hide other */
-	&[data-status='ended'] button:not([data-action='restart']) {
-		display: none;
-	}
 }

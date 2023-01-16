@@ -37,15 +37,13 @@
 
             <!-- state control group -->
             <div class="state-group | mx-auto margin-state-group">
-                <button class="state-button"
-                        data-active>pomodoro</button>
+                <button class="state-button active">pomodoro</button>
                 <button class="state-button">short break</button>
                 <button class="state-button">long break</button>
             </div>
 
             <!-- pomodoro timer -->
-            <div class="timer | mx-auto margin-timer"
-                 data-status="counting">
+            <div class="timer | mx-auto margin-timer">
                 <div class="timer__body | one-cell-grid">
                     <!-- progress bar -->
                     <svg aria-hidden="true"
@@ -54,19 +52,17 @@
                         <circle cx="50"
                                 cy="50"
                                 r="48"
+                                id="progress-bar"
                                 class="timer__progress-bar"></circle>
                     </svg>
 
                     <!-- time -->
-                    <p class="timer__time">00:00</p>
+                    <p id="timer-time"
+                       class="timer__time">00:00</p>
 
                     <!-- action buttons -->
-                    <button class="timer__action-button"
-                            data-action="start">start <span class="visually-hidden">timer</span></button>
-                    <button class="timer__action-button"
-                            data-action="pause">pause <span class="visually-hidden">timer</span></button>
-                    <button class="timer__action-button"
-                            data-action="restart">restart <span class="visually-hidden">timer</span></button>
+                    <button id="timer-button"
+                            class="timer__action-button">start</button>
                 </div>
             </div>
             <!-- pomodoro timer end -->

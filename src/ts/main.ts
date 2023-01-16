@@ -44,7 +44,9 @@ class AppTheme implements Theme {
 const appTheme: Theme = new AppTheme();
 
 /* Timer functionality */
+type TimerState = 'INITIAL' | 'COUNTING' | 'PAUSED' | 'END';
 interface Timer {
+	state: TimerState;
 	start: () => void;
 	pause: () => void;
 	restart: () => void;
@@ -52,6 +54,7 @@ interface Timer {
 }
 
 class PomodoroTimer implements Timer {
+	state: TimerState = 'INITIAL';
 	constructor(private time: number = 0) {}
 
 	start = (): void => {};
@@ -66,6 +69,7 @@ class PomodoroTimer implements Timer {
 }
 /* Timer functionality end */
 
+/* App */
 class PomodoroApp {
 	private timer: Timer;
 
