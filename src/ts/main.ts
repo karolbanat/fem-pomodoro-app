@@ -81,7 +81,10 @@ interface Timer {
 
 class PomodoroTimer implements Timer {
 	state: TimerState = 'INITIAL';
-	constructor(private time: number = 0) {}
+	private countingTime: number;
+	constructor(private time: number = 0) {
+		this.countingTime = time;
+	}
 
 	start = (): void => {
 		this.state = 'COUNTING';
@@ -92,13 +95,15 @@ class PomodoroTimer implements Timer {
 	};
 
 	restart = (): void => {
-		this.state = 'END';
+		this.state = 'INITIAL';
+		this.countingTime = this.time;
 	};
 
-	getTime = (): number => this.time;
+	getTime = (): number => this.countingTime;
 
 	setTime = (time: number): void => {
 		this.time = time;
+		this.countingTime = time;
 	};
 
 	getState = (): TimerState => this.state;
@@ -132,8 +137,8 @@ class TimerController {
 	};
 
 	count = (): void => {
-		this.setTime(this.timer.getTime() - 1);
 		this.countTimeout = setTimeout(() => {
+			this.setTime(this.timer.getTime() - 1);
 			this.count();
 		}, 1000);
 	};
