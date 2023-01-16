@@ -16,6 +16,12 @@ const colourRadioButtons: Array<HTMLInputElement> = Array.from(
 );
 const settingsSubmit: HTMLButtonElement = settingsForm.querySelector('button[type="submit"]');
 
+/* timer elements */
+const timer: HTMLElement = document.querySelector('.timer');
+const timeProgressBar: HTMLElement = timer.querySelector('#progress-bar');
+const timerTime: HTMLElement = timer.querySelector('#timer-time');
+const timerButton: HTMLButtonElement = timer.querySelector('#timer-button');
+
 /* constants */
 const DEFAULT_FONT: Font = 'sans-serif';
 const DEFAULT_COLOUR: Colour = 'red';
@@ -45,40 +51,110 @@ const appTheme: Theme = new AppTheme();
 
 /* Timer functionality */
 type TimerState = 'INITIAL' | 'COUNTING' | 'PAUSED' | 'END';
+
+const minutesToSeconds = (minutes: number): number => minutes * 60;
+
+const getMinutesFromSeconds = (seconds: number): number => Math.floor(seconds / 60);
+
+const getRemainingSeconds = (seconds: number): number => seconds % 60;
+
+const addLeadingZero = (time: number): string => {
+	return time < 10 ? `0${time}` : time.toString();
+};
+
+const formatTime = (seconds: number): string => {
+	const minutes = getMinutesFromSeconds(seconds);
+	const remainingSeconds = getRemainingSeconds(seconds);
+	return addLeadingZero(minutes) + ':' + addLeadingZero(remainingSeconds);
+};
+
 interface Timer {
 	state: TimerState;
 	start: () => void;
 	pause: () => void;
 	restart: () => void;
 	setTime: (time: number) => void;
+	getTime: () => number;
+	getState: () => TimerState;
+	setState: (state: TimerState) => void;
 }
 
 class PomodoroTimer implements Timer {
 	state: TimerState = 'INITIAL';
 	constructor(private time: number = 0) {}
 
-	start = (): void => {};
+	start = (): void => {
+		this.state = 'COUNTING';
+	};
 
-	pause = (): void => {};
+	pause = (): void => {
+		this.state = 'PAUSED';
+	};
 
-	restart = (): void => {};
+	restart = (): void => {
+		this.state = 'END';
+	};
+
+	getTime = (): number => this.time;
 
 	setTime = (time: number): void => {
 		this.time = time;
+	};
+
+	getState = (): TimerState => this.state;
+
+	setState = (state: TimerState): void => {
+		this.state = state;
+	};
+}
+
+class TimerController {
+	countTimeout: NodeJS.Timeout;
+	constructor(private timer: Timer) {
+		timerButton.addEventListener('click', this.timerAction);
+		timerTime.innerText = formatTime(this.timer.getTime());
+	}
+
+	timerAction = (): void => {
+		switch (this.timer.getState()) {
+			case 'INITIAL':
+			case 'PAUSED':
+				this.timer.start();
+				this.count();
+				timerButton.innerText = 'pause';
+				break;
+			case 'COUNTING':
+				this.timer.pause();
+				clearTimeout(this.countTimeout);
+				timerButton.innerText = 'start';
+				break;
+		}
+	};
+
+	count = (): void => {
+		this.setTime(this.timer.getTime() - 1);
+		this.countTimeout = setTimeout(() => {
+			this.count();
+		}, 1000);
+	};
+
+	setTime = (time: number): void => {
+		this.timer.setTime(time);
+		timerTime.innerText = formatTime(this.timer.getTime());
 	};
 }
 /* Timer functionality end */
 
 /* App */
 class PomodoroApp {
-	private timer: Timer;
+	private timer: TimerController;
 
 	constructor(
 		private pomodoroTime: number = 25,
 		private shortBreakTime: number = 5,
 		private longBreakTime: number = 15
 	) {
-		this.timer = new PomodoroTimer(this.pomodoroTime);
+		this.timer = new TimerController(new PomodoroTimer(minutesToSeconds(this.pomodoroTime)));
 	}
 
 	setTimes = (pomodoro: number, shortBreak: number, longBreak: number): void => {
