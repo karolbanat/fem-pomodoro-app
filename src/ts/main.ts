@@ -80,6 +80,7 @@ interface Timer {
 }
 
 class PomodoroTimer implements Timer {
+	countTimeout: NodeJS.Timeout;
 	state: TimerState = 'INITIAL';
 	private countingTime: number;
 	constructor(private time: number = 0) {
@@ -88,10 +89,19 @@ class PomodoroTimer implements Timer {
 
 	start = (): void => {
 		this.state = 'COUNTING';
+		this.count();
+	};
+
+	count = (): void => {
+		this.countTimeout = setTimeout(() => {
+			this.setTime(this.getTime() - 1);
+			this.count();
+		}, 1000);
 	};
 
 	pause = (): void => {
 		this.state = 'PAUSED';
+		clearTimeout(this.countTimeout);
 	};
 
 	restart = (): void => {
@@ -104,6 +114,7 @@ class PomodoroTimer implements Timer {
 	setTime = (time: number): void => {
 		this.time = time;
 		this.countingTime = time;
+		timerTime.innerText = formatTime(this.countingTime);
 	};
 
 	getState = (): TimerState => this.state;
@@ -114,7 +125,6 @@ class PomodoroTimer implements Timer {
 }
 
 class TimerController {
-	countTimeout: NodeJS.Timeout;
 	constructor(private timer: Timer) {
 		timerButton.addEventListener('click', this.timerAction);
 		timerTime.innerText = formatTime(this.timer.getTime());
@@ -125,27 +135,17 @@ class TimerController {
 			case 'INITIAL':
 			case 'PAUSED':
 				this.timer.start();
-				this.count();
 				timerButton.innerText = 'pause';
 				break;
 			case 'COUNTING':
 				this.timer.pause();
-				clearTimeout(this.countTimeout);
 				timerButton.innerText = 'start';
 				break;
 		}
 	};
 
-	count = (): void => {
-		this.countTimeout = setTimeout(() => {
-			this.setTime(this.timer.getTime() - 1);
-			this.count();
-		}, 1000);
-	};
-
 	setTime = (time: number): void => {
 		this.timer.setTime(time);
-		timerTime.innerText = formatTime(this.timer.getTime());
 	};
 }
 /* Timer functionality end */
