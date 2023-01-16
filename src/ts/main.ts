@@ -48,14 +48,11 @@ interface Timer {
 	start: () => void;
 	pause: () => void;
 	restart: () => void;
+	setTime: (time: number) => void;
 }
 
 class PomodoroTimer implements Timer {
-	constructor(
-		private pomodoroTime: number = 25,
-		private shortBreakTime: number = 5,
-		private longBreakTime: number = 15
-	) {}
+	constructor(private time: number = 0) {}
 
 	start = (): void => {};
 
@@ -63,15 +60,30 @@ class PomodoroTimer implements Timer {
 
 	restart = (): void => {};
 
+	setTime = (time: number): void => {
+		this.time = time;
+	};
+}
+/* Timer functionality end */
+
+class PomodoroApp {
+	private timer: Timer;
+
+	constructor(
+		private pomodoroTime: number = 25,
+		private shortBreakTime: number = 5,
+		private longBreakTime: number = 15
+	) {
+		this.timer = new PomodoroTimer(this.pomodoroTime);
+	}
+
 	setTimes = (pomodoro: number, shortBreak: number, longBreak: number): void => {
 		this.pomodoroTime = pomodoro;
 		this.shortBreakTime = shortBreak;
 		this.longBreakTime = longBreak;
 	};
 }
-
-const pomodoroTimer = new PomodoroTimer();
-/* Timer functionality end */
+const pomodoroApp: PomodoroApp = new PomodoroApp();
 
 /* modal functions */
 const openModal = () => {
@@ -89,7 +101,7 @@ settingsSubmit.addEventListener('click', (e: Event) => {
 	const longBreakTime = Number(longBreakTimeInput.value);
 	const chosenFont: Font = fontRadioButtons.find(button => button.checked).value as Font;
 	const chosenColour: Colour = colourRadioButtons.find(button => button.checked).value as Colour;
-	pomodoroTimer.setTimes(pomodoroTime, shortBreakTime, longBreakTime);
+	pomodoroApp.setTimes(pomodoroTime, shortBreakTime, longBreakTime);
 	appTheme.updateTheme(chosenFont, chosenColour);
 	closeModal();
 });
