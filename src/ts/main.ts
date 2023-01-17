@@ -22,16 +22,19 @@ const timeProgressBar: HTMLElement = timer.querySelector('#progress-bar');
 const timerTime: HTMLElement = timer.querySelector('#timer-time');
 const timerButton: HTMLButtonElement = timer.querySelector('#timer-button');
 
+/* time state buttons */
+const timeStateButtons: Array<HTMLButtonElement> = Array.from(document.querySelectorAll('.state-button'));
+
 /* constants */
 /* --- general */
-const SECONDS_IN_MINUTE = 60;
+const SECONDS_IN_MINUTE: number = 60;
 /* --- theme */
 const DEFAULT_FONT: Font = 'sans-serif';
 const DEFAULT_COLOUR: Colour = 'red';
 /* --- times */
-const DEFAULT_POMODORO_TIME = 25;
-const DEFAULT_SHORT_BREAK_TIME = 5;
-const DEFAULT_LONG_BREAK_TIME = 5;
+const DEFAULT_POMODORO_TIME: number = 25;
+const DEFAULT_SHORT_BREAK_TIME: number = 5;
+const DEFAULT_LONG_BREAK_TIME: number = 15;
 
 /* theme states */
 type Colour = 'red' | 'cyan' | 'violet';
@@ -114,6 +117,7 @@ class PomodoroTimer implements Timer {
 	restart = (): void => {
 		this.state = 'INITIAL';
 		this.countingTime = this.time;
+		clearTimeout(this.countTimeout);
 	};
 
 	getTime = (): number => this.countingTime;
@@ -151,6 +155,11 @@ class TimerController {
 		}
 	};
 
+	restartTimer = (): void => {
+		this.timer.restart();
+		timerButton.innerText = 'start';
+	};
+
 	setTime = (time: number): void => {
 		this.timer.setTime(time);
 	};
@@ -158,8 +167,10 @@ class TimerController {
 /* Timer functionality end */
 
 /* App */
+type PomodoroAppStates = 'POMODORO' | 'SHORT_BREAK' | 'LONG_BREAK';
 class PomodoroApp {
 	private timer: TimerController;
+	private appState: PomodoroAppStates = 'POMODORO';
 
 	constructor(
 		private pomodoroTime: number = DEFAULT_POMODORO_TIME,
@@ -174,6 +185,26 @@ class PomodoroApp {
 		this.shortBreakTime = shortBreak;
 		this.longBreakTime = longBreak;
 	};
+
+	changeState = (state: PomodoroAppStates): void => {
+		this.appState = state;
+		this.timer.restartTimer();
+		this.setTimerBasedOnState();
+	};
+
+	setTimerBasedOnState = (): void => {
+		switch (this.appState) {
+			case 'POMODORO':
+				this.timer.setTime(minutesToSeconds(this.pomodoroTime));
+				break;
+			case 'SHORT_BREAK':
+				this.timer.setTime(minutesToSeconds(this.shortBreakTime));
+				break;
+			case 'LONG_BREAK':
+				this.timer.setTime(minutesToSeconds(this.longBreakTime));
+				break;
+		}
+	};
 }
 const pomodoroApp: PomodoroApp = new PomodoroApp();
 
@@ -184,6 +215,12 @@ const openModal = () => {
 
 const closeModal = () => {
 	settingsModal.dataset.open = 'false';
+};
+
+/* app time state buttons functions */
+const activateStateButton = (button: HTMLButtonElement) => {
+	timeStateButtons.forEach(button => button.classList.remove('active'));
+	button.classList.add('active');
 };
 
 settingsSubmit.addEventListener('click', (e: Event) => {
@@ -207,3 +244,12 @@ closeModalButton?.addEventListener('click', () => {
 	closeModal();
 });
 /* modal opening and closing end */
+
+timeStateButtons.forEach(button =>
+	button.addEventListener('click', (e: Event) => {
+		const button: HTMLButtonElement = e.target as HTMLButtonElement;
+		const state: PomodoroAppStates = button.dataset.state.toUpperCase() as PomodoroAppStates;
+		activateStateButton(button);
+		pomodoroApp.changeState(state);
+	})
+);
