@@ -23,8 +23,15 @@ const timerTime: HTMLElement = timer.querySelector('#timer-time');
 const timerButton: HTMLButtonElement = timer.querySelector('#timer-button');
 
 /* constants */
+/* --- general */
+const SECONDS_IN_MINUTE = 60;
+/* --- theme */
 const DEFAULT_FONT: Font = 'sans-serif';
 const DEFAULT_COLOUR: Colour = 'red';
+/* --- times */
+const DEFAULT_POMODORO_TIME = 25;
+const DEFAULT_SHORT_BREAK_TIME = 5;
+const DEFAULT_LONG_BREAK_TIME = 5;
 
 /* theme states */
 type Colour = 'red' | 'cyan' | 'violet';
@@ -52,11 +59,11 @@ const appTheme: Theme = new AppTheme();
 /* Timer functionality */
 type TimerState = 'INITIAL' | 'COUNTING' | 'PAUSED' | 'END';
 
-const minutesToSeconds = (minutes: number): number => minutes * 60;
+const minutesToSeconds = (minutes: number): number => minutes * SECONDS_IN_MINUTE;
 
-const getMinutesFromSeconds = (seconds: number): number => Math.floor(seconds / 60);
+const getMinutesFromSeconds = (seconds: number): number => Math.floor(seconds / SECONDS_IN_MINUTE);
 
-const getRemainingSeconds = (seconds: number): number => seconds % 60;
+const getRemainingSeconds = (seconds: number): number => seconds % SECONDS_IN_MINUTE;
 
 const addLeadingZero = (time: number): string => {
 	return time < 10 ? `0${time}` : time.toString();
@@ -155,9 +162,9 @@ class PomodoroApp {
 	private timer: TimerController;
 
 	constructor(
-		private pomodoroTime: number = 25,
-		private shortBreakTime: number = 5,
-		private longBreakTime: number = 15
+		private pomodoroTime: number = DEFAULT_POMODORO_TIME,
+		private shortBreakTime: number = DEFAULT_SHORT_BREAK_TIME,
+		private longBreakTime: number = DEFAULT_LONG_BREAK_TIME
 	) {
 		this.timer = new TimerController(new PomodoroTimer(minutesToSeconds(this.pomodoroTime)));
 	}
