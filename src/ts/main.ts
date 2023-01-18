@@ -183,7 +183,10 @@ class TimerView implements Observer {
 		this.updateTime(obs.getCurrentTime());
 		this.updateProgressBar(obs.getCurrentTime(), obs.getTime());
 
-		if (obs.getState() === 'END') this.updateButtonLabel('restart');
+		if (obs.getState() === 'END') {
+			this.updateButtonLabel('restart');
+			this.resetProgressBar();
+		}
 	};
 
 	updateButtonLabel = (label: string): void => {
@@ -197,6 +200,10 @@ class TimerView implements Observer {
 	updateProgressBar = (current: number, base: number): void => {
 		const circumference: number = Number(getComputedStyle(this.timeProgressBar).getPropertyValue('--circumference'));
 		this.timeProgressBar.style.setProperty('--progress', ((1 - current / base) * circumference).toFixed(0));
+	};
+
+	resetProgressBar = (): void => {
+		this.timeProgressBar.style.setProperty('--progress', '0');
 	};
 }
 
@@ -295,12 +302,13 @@ const closeModal = () => {
 	settingsModal.dataset.open = 'false';
 };
 
-/* app time state buttons functions */
+/* app time state buttons function */
 const activateStateButton = (button: HTMLButtonElement) => {
 	timeStateButtons.forEach(button => button.classList.remove('active'));
 	button.classList.add('active');
 };
 
+/* event listeners */
 settingsSubmit.addEventListener('click', (e: Event) => {
 	e.preventDefault();
 	const pomodoroTime = Number(pomodoroTimeInput.value);
