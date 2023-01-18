@@ -98,6 +98,7 @@ class PomodoroTimer implements Timer {
 	countTimeout: NodeJS.Timeout;
 	state: TimerState = 'INITIAL';
 	private countingTime: number;
+
 	constructor(private time: number = 0) {
 		this.countingTime = time;
 	}
@@ -109,7 +110,7 @@ class PomodoroTimer implements Timer {
 
 	count = (): void => {
 		this.countTimeout = setTimeout(() => {
-			this.setTime(this.getTime() - 1);
+			this.updateTime(this.getCurrentTime() - 1);
 			this.count();
 		}, 1000);
 	};
@@ -125,10 +126,16 @@ class PomodoroTimer implements Timer {
 		clearTimeout(this.countTimeout);
 	};
 
-	getTime = (): number => this.countingTime;
+	getTime = (): number => this.time;
+
+	getCurrentTime = (): number => this.countingTime;
 
 	setTime = (time: number): void => {
 		this.time = time;
+		this.updateTime(this.time);
+	};
+
+	updateTime = (time: number): void => {
 		this.countingTime = time;
 		this.notifyObservers();
 	};
@@ -164,6 +171,7 @@ class TimerView implements Observer<number> {
 
 	update = (current: number, base: number): void => {
 		this.updateTime(current);
+		this.updateProgressBar(current, base);
 	};
 
 	updateButtonLabel = (label: string): void => {
@@ -172,6 +180,11 @@ class TimerView implements Observer<number> {
 
 	updateTime = (time: number): void => {
 		this.timerTime.innerHTML = formatTime(time);
+	};
+
+	updateProgressBar = (current: number, base: number): void => {
+		const circumference: number = Number(getComputedStyle(this.timeProgressBar).getPropertyValue('--circumference'));
+		this.timeProgressBar.style.setProperty('--progress', ((1 - current / base) * circumference).toFixed(0));
 	};
 }
 

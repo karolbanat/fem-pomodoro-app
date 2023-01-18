@@ -33,12 +33,14 @@
 	}
 
 	&__progress-bar {
+		--bar-width: 4;
+		--circumference: 301; //  2 * 48 * PI
 		--progress: 0;
 
 		/* progress line */
-		stroke-width: 0.4rem;
+		stroke-width: var(--bar-width);
 		stroke-linecap: round;
-		stroke-dasharray: 300;
+		stroke-dasharray: var(--circumference);
 		stroke-dashoffset: var(--progress, 0);
 		stroke: var(--theme-colour, black);
 
