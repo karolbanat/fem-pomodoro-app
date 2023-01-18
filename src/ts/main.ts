@@ -226,6 +226,7 @@ class PomodoroApp {
 		this.pomodoroTime = pomodoro;
 		this.shortBreakTime = shortBreak;
 		this.longBreakTime = longBreak;
+		this.changeState(this.appState);
 	};
 
 	changeState = (state: PomodoroAppStates): void => {
