@@ -16,12 +16,6 @@ const colourRadioButtons: Array<HTMLInputElement> = Array.from(
 );
 const settingsSubmit: HTMLButtonElement = settingsForm.querySelector('button[type="submit"]');
 
-/* timer elements */
-const timer: HTMLElement = document.querySelector('.timer');
-const timeProgressBar: HTMLElement = timer.querySelector('#progress-bar');
-const timerTime: HTMLElement = timer.querySelector('#timer-time');
-const timerButton: HTMLButtonElement = timer.querySelector('#timer-button');
-
 /* time state buttons */
 const timeStateButtons: Array<HTMLButtonElement> = Array.from(document.querySelectorAll('.state-button'));
 
@@ -35,6 +29,16 @@ const DEFAULT_COLOUR: Colour = 'red';
 const DEFAULT_POMODORO_TIME: number = 25;
 const DEFAULT_SHORT_BREAK_TIME: number = 5;
 const DEFAULT_LONG_BREAK_TIME: number = 15;
+
+/* Observer pattern interfaces */
+interface Observable<T> {
+	addObserver: (observer: Observer<T>) => void;
+	notifyObservers: () => void;
+}
+
+interface Observer<T> {
+	update: (current: T, base: T) => void;
+}
 
 /* theme states */
 type Colour = 'red' | 'cyan' | 'violet';
@@ -78,7 +82,7 @@ const formatTime = (seconds: number): string => {
 	return addLeadingZero(minutes) + ':' + addLeadingZero(remainingSeconds);
 };
 
-interface Timer {
+interface Timer extends Observable<number> {
 	state: TimerState;
 	start: () => void;
 	pause: () => void;
@@ -90,6 +94,7 @@ interface Timer {
 }
 
 class PomodoroTimer implements Timer {
+	observers: Observer<number>[] = [];
 	countTimeout: NodeJS.Timeout;
 	state: TimerState = 'INITIAL';
 	private countingTime: number;
@@ -125,7 +130,7 @@ class PomodoroTimer implements Timer {
 	setTime = (time: number): void => {
 		this.time = time;
 		this.countingTime = time;
-		timerTime.innerText = formatTime(this.countingTime);
+		this.notifyObservers();
 	};
 
 	getState = (): TimerState => this.state;
@@ -133,12 +138,49 @@ class PomodoroTimer implements Timer {
 	setState = (state: TimerState): void => {
 		this.state = state;
 	};
+
+	addObserver = (observer: Observer<number>): void => {
+		this.observers.push(observer);
+	};
+
+	notifyObservers = (): void => {
+		this.observers.forEach(observer => observer.update(this.countingTime, this.time));
+	};
+}
+
+class TimerView implements Observer<number> {
+	private timer: HTMLElement;
+	private timeProgressBar: HTMLElement;
+	private timerTime: HTMLElement;
+	private timerButton: HTMLButtonElement;
+
+	constructor(buttonOnClick: (e: Event) => void) {
+		this.timer = document.querySelector('.timer');
+		this.timeProgressBar = this.timer.querySelector('#progress-bar');
+		this.timerTime = this.timer.querySelector('#timer-time');
+		this.timerButton = this.timer.querySelector('#timer-button');
+		this.timerButton.addEventListener('click', buttonOnClick);
+	}
+
+	update = (current: number, base: number): void => {
+		this.updateTime(current);
+	};
+
+	updateButtonLabel = (label: string): void => {
+		this.timerButton.innerText = label;
+	};
+
+	updateTime = (time: number): void => {
+		this.timerTime.innerHTML = formatTime(time);
+	};
 }
 
 class TimerController {
+	private view: TimerView;
 	constructor(private timer: Timer) {
-		timerButton.addEventListener('click', this.timerAction);
-		timerTime.innerText = formatTime(this.timer.getTime());
+		this.view = new TimerView(this.timerAction);
+		timer.addObserver(this.view);
+		this.view.update(this.timer.getTime(), this.timer.getTime());
 	}
 
 	timerAction = (): void => {
@@ -146,18 +188,18 @@ class TimerController {
 			case 'INITIAL':
 			case 'PAUSED':
 				this.timer.start();
-				timerButton.innerText = 'pause';
+				this.view.updateButtonLabel('pause');
 				break;
 			case 'COUNTING':
 				this.timer.pause();
-				timerButton.innerText = 'start';
+				this.view.updateButtonLabel('start');
 				break;
 		}
 	};
 
 	restartTimer = (): void => {
 		this.timer.restart();
-		timerButton.innerText = 'start';
+		this.view.updateButtonLabel('start');
 	};
 
 	setTime = (time: number): void => {
