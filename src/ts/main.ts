@@ -31,13 +31,13 @@ const DEFAULT_SHORT_BREAK_TIME: number = 5;
 const DEFAULT_LONG_BREAK_TIME: number = 15;
 
 /* Observer pattern interfaces */
-interface Observable<T> {
-	addObserver: (observer: Observer<T>) => void;
+interface Observable {
+	addObserver: (observer: Observer) => void;
 	notifyObservers: () => void;
 }
 
-interface Observer<T> {
-	update: (current: T, base: T) => void;
+interface Observer {
+	update: (observable: Observable) => void;
 }
 
 /* theme states */
@@ -82,19 +82,20 @@ const formatTime = (seconds: number): string => {
 	return addLeadingZero(minutes) + ':' + addLeadingZero(remainingSeconds);
 };
 
-interface Timer extends Observable<number> {
+interface Timer extends Observable {
 	state: TimerState;
 	start: () => void;
 	pause: () => void;
 	restart: () => void;
 	setTime: (time: number) => void;
 	getTime: () => number;
+	getCurrentTime: () => number;
 	getState: () => TimerState;
 	setState: (state: TimerState) => void;
 }
 
 class PomodoroTimer implements Timer {
-	observers: Observer<number>[] = [];
+	observers: Observer[] = [];
 	countTimeout: NodeJS.Timeout;
 	state: TimerState = 'INITIAL';
 	private countingTime: number;
@@ -104,11 +105,17 @@ class PomodoroTimer implements Timer {
 	}
 
 	start = (): void => {
-		this.state = 'COUNTING';
+		this.setState('COUNTING');
 		this.count();
 	};
 
 	count = (): void => {
+		if (this.getCurrentTime() === 0) {
+			this.setState('END');
+			clearTimeout(this.countTimeout);
+			return;
+		}
+
 		this.countTimeout = setTimeout(() => {
 			this.updateTime(this.getCurrentTime() - 1);
 			this.count();
@@ -116,13 +123,13 @@ class PomodoroTimer implements Timer {
 	};
 
 	pause = (): void => {
-		this.state = 'PAUSED';
+		this.setState('PAUSED');
 		clearTimeout(this.countTimeout);
 	};
 
 	restart = (): void => {
-		this.state = 'INITIAL';
-		this.countingTime = this.time;
+		this.setState('INITIAL');
+		this.updateTime(this.time);
 		clearTimeout(this.countTimeout);
 	};
 
@@ -144,18 +151,20 @@ class PomodoroTimer implements Timer {
 
 	setState = (state: TimerState): void => {
 		this.state = state;
+
+		if (this.state === 'END') this.notifyObservers();
 	};
 
-	addObserver = (observer: Observer<number>): void => {
+	addObserver = (observer: Observer): void => {
 		this.observers.push(observer);
 	};
 
 	notifyObservers = (): void => {
-		this.observers.forEach(observer => observer.update(this.countingTime, this.time));
+		this.observers.forEach(observer => observer.update(this));
 	};
 }
 
-class TimerView implements Observer<number> {
+class TimerView implements Observer {
 	private timer: HTMLElement;
 	private timeProgressBar: HTMLElement;
 	private timerTime: HTMLElement;
@@ -169,9 +178,12 @@ class TimerView implements Observer<number> {
 		this.timerButton.addEventListener('click', buttonOnClick);
 	}
 
-	update = (current: number, base: number): void => {
-		this.updateTime(current);
-		this.updateProgressBar(current, base);
+	update = (observable: Observable): void => {
+		const obs: Timer = observable as Timer;
+		this.updateTime(obs.getCurrentTime());
+		this.updateProgressBar(obs.getCurrentTime(), obs.getTime());
+
+		if (obs.getState() === 'END') this.updateButtonLabel('restart');
 	};
 
 	updateButtonLabel = (label: string): void => {
@@ -193,21 +205,31 @@ class TimerController {
 	constructor(private timer: Timer) {
 		this.view = new TimerView(this.timerAction);
 		timer.addObserver(this.view);
-		this.view.update(this.timer.getTime(), this.timer.getTime());
+		this.view.update(this.timer);
 	}
 
 	timerAction = (): void => {
 		switch (this.timer.getState()) {
 			case 'INITIAL':
 			case 'PAUSED':
-				this.timer.start();
-				this.view.updateButtonLabel('pause');
+				this.startTimer();
 				break;
 			case 'COUNTING':
-				this.timer.pause();
-				this.view.updateButtonLabel('start');
+				this.pauseTimer();
 				break;
+			case 'END':
+				this.restartTimer();
 		}
+	};
+
+	startTimer = (): void => {
+		this.timer.start();
+		this.view.updateButtonLabel('pause');
+	};
+
+	pauseTimer = (): void => {
+		this.timer.pause();
+		this.view.updateButtonLabel('start');
 	};
 
 	restartTimer = (): void => {
