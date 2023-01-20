@@ -26,7 +26,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Frontend Mentor Solution Page](https://your-solution-url.com)
+- Solution URL: [Frontend Mentor Solution Page](https://www.frontendmentor.io/solutions/pomodoro-app-KA6o22mBaJ)
 - Live Site URL: [GitHub Pages Site](https://karolbanat.github.io/fem-pomodoro-app/)
 
 ## My process
