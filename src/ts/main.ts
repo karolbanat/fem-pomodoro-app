@@ -180,6 +180,7 @@ class TimerView implements Observer {
 
 		if (obs.getState() === 'END') {
 			this.updateButtonLabel('restart');
+			this.updateTimeAnnouncement('polite');
 			this.resetProgressBar();
 		}
 	};
@@ -195,6 +196,10 @@ class TimerView implements Observer {
 	updateProgressBar = (current: number, base: number): void => {
 		const circumference: number = Number(getComputedStyle(this.timeProgressBar).getPropertyValue('--circumference'));
 		this.timeProgressBar.style.setProperty('--progress', ((1 - current / base) * circumference).toFixed(0));
+	};
+
+	updateTimeAnnouncement = (value: string = 'off'): void => {
+		this.timerTime.setAttribute('aria-live', value);
 	};
 
 	resetProgressBar = (): void => {
@@ -237,6 +242,7 @@ class PomodoroTimerController implements TimerController {
 	restartTimer = (): void => {
 		this.timer.restart();
 		this.view.updateButtonLabel('start');
+		this.view.updateTimeAnnouncement();
 	};
 
 	setTime = (time: number): void => {
