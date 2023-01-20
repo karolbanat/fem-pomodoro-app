@@ -30,7 +30,13 @@ const DEFAULT_POMODORO_TIME: number = 25;
 const DEFAULT_SHORT_BREAK_TIME: number = 5;
 const DEFAULT_LONG_BREAK_TIME: number = 15;
 
-/* Observer pattern interfaces */
+/* types */
+type Colour = 'red' | 'cyan' | 'violet';
+type Font = 'serif' | 'sans-serif' | 'monospace';
+type TimerState = 'INITIAL' | 'COUNTING' | 'PAUSED' | 'END';
+type PomodoroAppStates = 'POMODORO' | 'SHORT_BREAK' | 'LONG_BREAK';
+
+/* interfaces */
 interface Observable {
 	addObserver: (observer: Observer) => void;
 	notifyObservers: () => void;
@@ -40,32 +46,11 @@ interface Observer {
 	update: (observable: Observable) => void;
 }
 
-/* theme states */
-type Colour = 'red' | 'cyan' | 'violet';
-type Font = 'serif' | 'sans-serif' | 'monospace';
-
 interface Theme {
 	colour: Colour;
 	font: Font;
 	updateTheme: (font: Font, colour: Colour) => void;
 }
-
-class AppTheme implements Theme {
-	colour: Colour = DEFAULT_COLOUR;
-	font: Font = DEFAULT_FONT;
-
-	updateTheme = (font: Font, colour: Colour): void => {
-		this.colour = colour;
-		this.font = font;
-		document.body.dataset.font = font;
-		document.body.dataset.theme = colour;
-	};
-}
-
-const appTheme: Theme = new AppTheme();
-
-/* Timer functionality */
-type TimerState = 'INITIAL' | 'COUNTING' | 'PAUSED' | 'END';
 
 interface Timer extends Observable {
 	state: TimerState;
@@ -77,6 +62,19 @@ interface Timer extends Observable {
 	getCurrentTime: () => number;
 	getState: () => TimerState;
 	setState: (state: TimerState) => void;
+}
+
+/* classes */
+class AppTheme implements Theme {
+	colour: Colour = DEFAULT_COLOUR;
+	font: Font = DEFAULT_FONT;
+
+	updateTheme = (font: Font, colour: Colour): void => {
+		this.colour = colour;
+		this.font = font;
+		document.body.dataset.font = font;
+		document.body.dataset.theme = colour;
+	};
 }
 
 class PomodoroTimer implements Timer {
@@ -233,10 +231,7 @@ class TimerController {
 		this.timer.setTime(time);
 	};
 }
-/* Timer functionality end */
 
-/* App */
-type PomodoroAppStates = 'POMODORO' | 'SHORT_BREAK' | 'LONG_BREAK';
 class PomodoroApp {
 	private timer: TimerController;
 	private appState: PomodoroAppStates = 'POMODORO';
@@ -277,6 +272,7 @@ class PomodoroApp {
 	};
 }
 
+const appTheme: Theme = new AppTheme();
 const pomodoroApp: PomodoroApp = new PomodoroApp();
 
 /* event listeners */
