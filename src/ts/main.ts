@@ -315,13 +315,9 @@ settingsSubmit.addEventListener('click', (e: Event) => {
 	closeModal();
 });
 
-settingsButton.addEventListener('click', () => {
-	openModal();
-});
+settingsButton.addEventListener('click', openModal);
 
-closeModalButton?.addEventListener('click', () => {
-	closeModal();
-});
+closeModalButton.addEventListener('click', closeModal);
 
 timeStateButtons.forEach(button =>
 	button.addEventListener('click', (e: Event) => {
