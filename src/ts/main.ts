@@ -81,9 +81,12 @@ class PomodoroTimer implements Timer {
 	observers: Observer[] = [];
 	countTimeout: NodeJS.Timeout;
 	state: TimerState = 'INITIAL';
-	private countingTime: number;
 
-	constructor(private time: number = 0) {
+	private countingTime: number;
+	private baseTime: number;
+
+	constructor(time: number = 0) {
+		this.baseTime = time;
 		this.countingTime = time;
 	}
 
@@ -93,14 +96,14 @@ class PomodoroTimer implements Timer {
 	};
 
 	count = (): void => {
-		if (this.getCurrentTime() === 0) {
+		if (this.countingTime === 0) {
 			this.setState('END');
 			clearTimeout(this.countTimeout);
 			return;
 		}
 
 		this.countTimeout = setTimeout(() => {
-			this.updateTime(this.getCurrentTime() - 1);
+			this.updateTime();
 			this.count();
 		}, 1000);
 	};
@@ -112,21 +115,22 @@ class PomodoroTimer implements Timer {
 
 	restart = (): void => {
 		this.setState('INITIAL');
-		this.updateTime(this.time);
+		this.setTime(this.baseTime);
 		clearTimeout(this.countTimeout);
 	};
 
-	getTime = (): number => this.time;
+	getTime = (): number => this.baseTime;
 
 	getCurrentTime = (): number => this.countingTime;
 
 	setTime = (time: number): void => {
-		this.time = time;
-		this.updateTime(this.time);
+		this.baseTime = time;
+		this.countingTime = time;
+		this.notifyObservers();
 	};
 
-	updateTime = (time: number): void => {
-		this.countingTime = time;
+	updateTime = (): void => {
+		this.countingTime--;
 		this.notifyObservers();
 	};
 
@@ -138,6 +142,7 @@ class PomodoroTimer implements Timer {
 		if (this.state === 'END') this.notifyObservers();
 	};
 
+	/* observer implementation */
 	addObserver = (observer: Observer): void => {
 		this.observers.push(observer);
 	};
