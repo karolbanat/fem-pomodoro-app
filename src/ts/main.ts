@@ -208,11 +208,13 @@ class TimerView implements Observer {
 }
 
 class PomodoroTimerController implements TimerController {
+	private timer: Timer;
 	private view: TimerView;
-	constructor(private timer: Timer) {
+	constructor(timer: Timer) {
+		this.timer = timer;
 		this.view = new TimerView(this.timerAction);
+
 		timer.addObserver(this.view);
-		this.view.update(this.timer);
 	}
 
 	timerAction = (): void => {
@@ -254,12 +256,17 @@ class PomodoroApp {
 	private timerController: TimerController;
 	private appState: PomodoroAppStates = 'POMODORO';
 
+	private pomodoroTime: number;
+	private shortBreakTime: number;
+	private longBreakTime: number;
+
 	constructor(
-		private pomodoroTime: number = DEFAULT_POMODORO_TIME,
-		private shortBreakTime: number = DEFAULT_SHORT_BREAK_TIME,
-		private longBreakTime: number = DEFAULT_LONG_BREAK_TIME
+		pomodoroTime: number = DEFAULT_POMODORO_TIME,
+		shortBreakTime: number = DEFAULT_SHORT_BREAK_TIME,
+		longBreakTime: number = DEFAULT_LONG_BREAK_TIME
 	) {
-		this.timerController = new PomodoroTimerController(new PomodoroTimer(minutesToSeconds(this.pomodoroTime)));
+		this.timerController = new PomodoroTimerController(new PomodoroTimer());
+		this.setTimes(pomodoroTime, shortBreakTime, longBreakTime);
 	}
 
 	setTimes = (pomodoro: number, shortBreak: number, longBreak: number): void => {
