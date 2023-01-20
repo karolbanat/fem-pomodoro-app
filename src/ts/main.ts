@@ -17,7 +17,10 @@ const colourRadioButtons: Array<HTMLInputElement> = Array.from(
 const settingsSubmit: HTMLButtonElement = settingsForm.querySelector('button[type="submit"]');
 
 /* time state buttons */
-const timeStateButtons: Array<HTMLButtonElement> = Array.from(document.querySelectorAll('.state-button'));
+const stateForm: HTMLFormElement = document.querySelector('#state-form');
+const timeStateButtons: Array<HTMLInputElement> = Array.from(
+	stateForm.querySelectorAll('input[type="radio"][name="time-state"]')
+);
 
 /* constants */
 /* --- general */
@@ -320,14 +323,14 @@ settingsButton.addEventListener('click', openModal);
 closeModalButton.addEventListener('click', closeModal);
 
 timeStateButtons.forEach(button =>
-	button.addEventListener('click', (e: Event) => {
-		const button: HTMLButtonElement = e.target as HTMLButtonElement;
-		const state: PomodoroAppStates = button.dataset.state.toUpperCase() as PomodoroAppStates;
-		activateStateButton(button);
+	button.addEventListener('change', (e: Event) => {
+		const button: HTMLInputElement = e.target as HTMLInputElement;
+		const state: PomodoroAppStates = button.value.toUpperCase() as PomodoroAppStates;
 		pomodoroApp.changeState(state);
 	})
 );
 
+/* -- traps focus on within settings modal when it is opened */
 document.addEventListener('keydown', (e: KeyboardEvent) => {
 	const isTab: boolean = e.key === 'Tab';
 
@@ -367,12 +370,6 @@ function formatTime(seconds: number): string {
 	const minutes = getMinutesFromSeconds(seconds);
 	const remainingSeconds = getRemainingSeconds(seconds);
 	return addLeadingZero(minutes) + ':' + addLeadingZero(remainingSeconds);
-}
-
-/* --- app time state buttons function */
-function activateStateButton(button: HTMLButtonElement) {
-	timeStateButtons.forEach(button => button.classList.remove('active'));
-	button.classList.add('active');
 }
 
 /* --- modal */

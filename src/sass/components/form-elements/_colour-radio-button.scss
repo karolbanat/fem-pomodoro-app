@@ -1,7 +1,7 @@
-@use './custom-radio-button';
+@use './circle-radio-button';
 
 .colour-radio-button {
-	@extend .custom-radio-button;
+	@extend .circle-radio-button;
 
 	&__label {
 		position: relative;

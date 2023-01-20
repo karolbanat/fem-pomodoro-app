@@ -1,6 +1,6 @@
-@use '../abstracts/mixins';
+@use '../../abstracts/mixins';
 
-.state-group {
+.state-form {
 	position: relative; // to hide timer shadows under
 	display: flex;
 	justify-content: center;

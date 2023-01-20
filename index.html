@@ -36,14 +36,40 @@
             </h1>
 
             <!-- state control group -->
-            <div class="state-group | mx-auto margin-state-group">
-                <button class="state-button active"
-                        data-state="pomodoro">pomodoro</button>
-                <button class="state-button"
-                        data-state="short_break">short break</button>
-                <button class="state-button"
-                        data-state="long_break">long break</button>
-            </div>
+            <form id="state-form"
+                  class="state-form | mx-auto margin-state-group">
+                <div class="state-radio-button">
+                    <input type="radio"
+                           name="time-state"
+                           value="pomodoro"
+                           id="pomodoro-time-state"
+                           checked>
+                    <label for="pomodoro-time-state"
+                           class="state-radio-button__label">
+                        pomodoro
+                    </label>
+                </div>
+                <div class="state-radio-button">
+                    <input type="radio"
+                           name="time-state"
+                           value="short_break"
+                           id="short-break-time-state">
+                    <label for="short-break-time-state"
+                           class="state-radio-button__label">
+                        short break
+                    </label>
+                </div>
+                <div class="state-radio-button">
+                    <input type="radio"
+                           name="time-state"
+                           value="long_break"
+                           id="long-break-time-state">
+                    <label for="long-break-time-state"
+                           class="state-radio-button__label">
+                        long break
+                    </label>
+                </div>
+            </form>
 
             <!-- pomodoro timer -->
             <div class="timer | mx-auto margin-timer">

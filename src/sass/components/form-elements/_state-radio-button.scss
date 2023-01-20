@@ -1,0 +1,49 @@
+@use './custom-radio-button';
+
+.state-radio-button {
+	@extend .custom-radio-button;
+	--button-bg: transparent;
+	--button-bg-checked: var(--theme-colour);
+	--text-colour-checked: var(--clr-neutral-700);
+	--transition-time: 0.35s;
+	--transition-function: ease-in-out;
+
+	&__label {
+		/* sizing */
+		display: inline-block;
+		padding-block: 1.25em;
+		padding-inline: 1.75em;
+
+		/* typography */
+		font-family: var(--theme-font);
+		font-size: var(--fz-250, 1.4rem);
+		font-weight: var(--fw-bold, 700);
+		color: var(--clr-neutral-400);
+
+		/* appearance */
+		border-radius: var(--borr-pill, 2rem);
+		opacity: 0.4;
+
+		/* other */
+		transition: opacity var(--transition-time) var(--transition-function),
+			background-color var(--transition-time) var(--transition-function);
+		cursor: pointer;
+	}
+
+	& label:is(:hover, :focus-visible),
+	& input[type='radio']:is(:hover, :focus-visible) ~ label {
+		opacity: 1;
+	}
+
+	& input[type='radio']:checked ~ label {
+		background-color: var(--button-bg-checked);
+		color: var(--text-colour-checked);
+		opacity: 1;
+	}
+
+	& input[type='radio']:checked:is(:hover, :focus-visible) ~ label {
+		opacity: 0.75;
+		outline: 2px solid var(--theme-colour);
+		outline-offset: 0.2rem;
+	}
+}

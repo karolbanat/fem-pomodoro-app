@@ -1,7 +1,7 @@
-@use './custom-radio-button';
+@use './circle-radio-button';
 
 .font-radio-button {
-	@extend .custom-radio-button;
+	@extend .circle-radio-button;
 	--button-bg: var(--clr-neutral-200);
 	--button-bg-checked: var(--clr-neutral-800);
 	--text-colour: var(--clr-neutral-800);

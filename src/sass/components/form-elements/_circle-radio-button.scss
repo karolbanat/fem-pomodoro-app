@@ -1,0 +1,23 @@
+@use './custom-radio-button';
+
+.circle-radio-button {
+	@extend .custom-radio-button;
+	--button-size: 4rem;
+
+	& label {
+		display: inline-grid;
+		place-items: center;
+		width: var(--button-size);
+		aspect-ratio: 1 / 1;
+		color: var(--text-colour);
+		background-color: var(--button-bg);
+		border-radius: var(--borr-circle, 50%);
+		cursor: pointer;
+	}
+
+	& label:is(:hover, :focus-visible),
+	& input[type='radio']:is(:hover, :focus-visible) ~ label {
+		outline: 2px solid var(--clr-neutral-200);
+		outline-offset: 0.8rem;
+	}
+}
