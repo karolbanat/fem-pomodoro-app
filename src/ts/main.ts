@@ -43,6 +43,7 @@ interface Observer {
 /* theme states */
 type Colour = 'red' | 'cyan' | 'violet';
 type Font = 'serif' | 'sans-serif' | 'monospace';
+
 interface Theme {
 	colour: Colour;
 	font: Font;
@@ -65,22 +66,6 @@ const appTheme: Theme = new AppTheme();
 
 /* Timer functionality */
 type TimerState = 'INITIAL' | 'COUNTING' | 'PAUSED' | 'END';
-
-const minutesToSeconds = (minutes: number): number => minutes * SECONDS_IN_MINUTE;
-
-const getMinutesFromSeconds = (seconds: number): number => Math.floor(seconds / SECONDS_IN_MINUTE);
-
-const getRemainingSeconds = (seconds: number): number => seconds % SECONDS_IN_MINUTE;
-
-const addLeadingZero = (time: number): string => {
-	return time < 10 ? `0${time}` : time.toString();
-};
-
-const formatTime = (seconds: number): string => {
-	const minutes = getMinutesFromSeconds(seconds);
-	const remainingSeconds = getRemainingSeconds(seconds);
-	return addLeadingZero(minutes) + ':' + addLeadingZero(remainingSeconds);
-};
 
 interface Timer extends Observable {
 	state: TimerState;
@@ -291,37 +276,24 @@ class PomodoroApp {
 		}
 	};
 }
+
 const pomodoroApp: PomodoroApp = new PomodoroApp();
-
-/* modal functions */
-const openModal = () => {
-	settingsModal.dataset.open = 'true';
-};
-
-const closeModal = () => {
-	settingsModal.dataset.open = 'false';
-};
-
-/* app time state buttons function */
-const activateStateButton = (button: HTMLButtonElement) => {
-	timeStateButtons.forEach(button => button.classList.remove('active'));
-	button.classList.add('active');
-};
 
 /* event listeners */
 settingsSubmit.addEventListener('click', (e: Event) => {
 	e.preventDefault();
+
 	const pomodoroTime = Number(pomodoroTimeInput.value);
 	const shortBreakTime = Number(shortBreakTimeInput.value);
 	const longBreakTime = Number(longBreakTimeInput.value);
 	const chosenFont: Font = fontRadioButtons.find(button => button.checked).value as Font;
 	const chosenColour: Colour = colourRadioButtons.find(button => button.checked).value as Colour;
+
 	pomodoroApp.setTimes(pomodoroTime, shortBreakTime, longBreakTime);
 	appTheme.updateTheme(chosenFont, chosenColour);
 	closeModal();
 });
 
-/* modal opening and closing */
 settingsButton.addEventListener('click', () => {
 	openModal();
 });
@@ -329,7 +301,6 @@ settingsButton.addEventListener('click', () => {
 closeModalButton?.addEventListener('click', () => {
 	closeModal();
 });
-/* modal opening and closing end */
 
 timeStateButtons.forEach(button =>
 	button.addEventListener('click', (e: Event) => {
@@ -339,3 +310,42 @@ timeStateButtons.forEach(button =>
 		pomodoroApp.changeState(state);
 	})
 );
+
+/* helper functions */
+/* --- timer */
+function minutesToSeconds(minutes: number): number {
+	return minutes * SECONDS_IN_MINUTE;
+}
+
+function getMinutesFromSeconds(seconds: number): number {
+	return Math.floor(seconds / SECONDS_IN_MINUTE);
+}
+
+function getRemainingSeconds(seconds: number): number {
+	return seconds % SECONDS_IN_MINUTE;
+}
+
+function addLeadingZero(time: number): string {
+	return time < 10 ? `0${time}` : time.toString();
+}
+
+function formatTime(seconds: number): string {
+	const minutes = getMinutesFromSeconds(seconds);
+	const remainingSeconds = getRemainingSeconds(seconds);
+	return addLeadingZero(minutes) + ':' + addLeadingZero(remainingSeconds);
+}
+
+/* --- app time state buttons function */
+function activateStateButton(button: HTMLButtonElement) {
+	timeStateButtons.forEach(button => button.classList.remove('active'));
+	button.classList.add('active');
+}
+
+/* --- modal */
+function openModal() {
+	settingsModal.dataset.open = 'true';
+}
+
+function closeModal() {
+	settingsModal.dataset.open = 'false';
+}
