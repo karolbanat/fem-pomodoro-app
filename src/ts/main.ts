@@ -64,6 +64,13 @@ interface Timer extends Observable {
 	setState: (state: TimerState) => void;
 }
 
+interface TimerController {
+	startTimer: () => void;
+	pauseTimer: () => void;
+	restartTimer: () => void;
+	setTime: (time: number) => void;
+}
+
 /* classes */
 class AppTheme implements Theme {
 	colour: Colour = DEFAULT_COLOUR;
@@ -195,7 +202,7 @@ class TimerView implements Observer {
 	};
 }
 
-class TimerController {
+class PomodoroTimerController implements TimerController {
 	private view: TimerView;
 	constructor(private timer: Timer) {
 		this.view = new TimerView(this.timerAction);
@@ -238,7 +245,7 @@ class TimerController {
 }
 
 class PomodoroApp {
-	private timer: TimerController;
+	private timerController: TimerController;
 	private appState: PomodoroAppStates = 'POMODORO';
 
 	constructor(
@@ -246,7 +253,7 @@ class PomodoroApp {
 		private shortBreakTime: number = DEFAULT_SHORT_BREAK_TIME,
 		private longBreakTime: number = DEFAULT_LONG_BREAK_TIME
 	) {
-		this.timer = new TimerController(new PomodoroTimer(minutesToSeconds(this.pomodoroTime)));
+		this.timerController = new PomodoroTimerController(new PomodoroTimer(minutesToSeconds(this.pomodoroTime)));
 	}
 
 	setTimes = (pomodoro: number, shortBreak: number, longBreak: number): void => {
@@ -258,20 +265,20 @@ class PomodoroApp {
 
 	changeState = (state: PomodoroAppStates): void => {
 		this.appState = state;
-		this.timer.restartTimer();
+		this.timerController.restartTimer();
 		this.setTimerBasedOnState();
 	};
 
 	setTimerBasedOnState = (): void => {
 		switch (this.appState) {
 			case 'POMODORO':
-				this.timer.setTime(minutesToSeconds(this.pomodoroTime));
+				this.timerController.setTime(minutesToSeconds(this.pomodoroTime));
 				break;
 			case 'SHORT_BREAK':
-				this.timer.setTime(minutesToSeconds(this.shortBreakTime));
+				this.timerController.setTime(minutesToSeconds(this.shortBreakTime));
 				break;
 			case 'LONG_BREAK':
-				this.timer.setTime(minutesToSeconds(this.longBreakTime));
+				this.timerController.setTime(minutesToSeconds(this.longBreakTime));
 				break;
 		}
 	};
