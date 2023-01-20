@@ -325,6 +325,23 @@ timeStateButtons.forEach(button =>
 	})
 );
 
+document.addEventListener('keydown', (e: KeyboardEvent) => {
+	const isTab: boolean = e.key === 'Tab';
+
+	if (!isTab) return;
+
+	if (e.shiftKey && document.activeElement === closeModalButton) {
+		settingsSubmit.focus();
+		e.preventDefault();
+		return;
+	}
+
+	if (!e.shiftKey && document.activeElement === settingsSubmit) {
+		closeModalButton.focus();
+		e.preventDefault();
+	}
+});
+
 /* helper functions */
 /* --- timer */
 function minutesToSeconds(minutes: number): number {
@@ -358,8 +375,10 @@ function activateStateButton(button: HTMLButtonElement) {
 /* --- modal */
 function openModal() {
 	settingsModal.dataset.open = 'true';
+	closeModalButton.focus();
 }
 
 function closeModal() {
 	settingsModal.dataset.open = 'false';
+	settingsButton.focus();
 }
